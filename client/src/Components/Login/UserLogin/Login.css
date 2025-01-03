@@ -1,0 +1,23 @@
+section.login {
+    min-height: 100vh;
+    width: 100%;
+    background-image: url("../../../photos/RegisterBackground.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+form.agent-register-form {
+    padding: 30px;
+    background-color: #fefefe;
+    border-radius: 15px;
+}
+
+input.input-form {
+    margin: 10px 0;
+    border: solid 1px var(--gray);
+}
+
+h6.error-header {
+    font-size: 14.5px;
+}

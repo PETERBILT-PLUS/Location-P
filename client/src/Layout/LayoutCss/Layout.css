@@ -1,0 +1,114 @@
+/* For the Header */
+header.header nav.navbar div.container {
+    position: relative;
+}
+
+header.header nav.navbar div.container button.scroll-top-btn {
+    position: fixed;
+    bottom: 40px;
+    font-size: 3rem;
+    z-index: 1;
+    cursor: pointer;
+    right: 4%;
+    background: none;
+    border-radius: 50px;
+    padding: 0px;
+    border: none;
+    opacity: 0.7;
+}
+
+header.header nav.navbar div.container button.scroll-top-btn svg {
+    color: var(--lightBlue);
+    font-size: 1.2rem;
+    width: 45px;
+    height: 45px;
+}
+
+header.header nav.navbar div.container div.collapse div a.nav-link a {
+    text-decoration: none;
+    width: auto;
+    padding: 10px;
+}
+
+header.header nav.navbar div.container div.collapse div a.nav-link a.link-item {
+    color: var(--gray);
+    position: relative;
+}
+
+header.header nav.navbar div.container div.collapse div a.nav-link a.link-item::after {
+    position: absolute;
+    content: "";
+    width: 0%;
+    height: 2.5px;
+    bottom: 0;
+    left: 0;
+    border-radius: 5px;
+    background-color: var(--gray);
+    transition: width 250ms ease-in-out;
+}
+
+header.header nav.navbar div.container div.collapse div a.nav-link a.link-item:hover::after {
+    width: 100%;
+}
+
+header.header nav.navbar div.container div.collapse div a.nav-link a.link-item-active {
+    color: var(--lightBlue);
+    position: relative;
+    padding: 10px;
+}
+
+header.header nav.navbar div.container div.collapse div a.nav-link a.link-item-active::after {
+    position: absolute;
+    content: "";
+    width: 0%;
+    height: 2.5px;
+    bottom: 0;
+    left: 0;
+    border-radius: 5px;
+    background-color: var(--lightBlue);
+    transition: width 250ms ease-in-out;
+}
+
+header.header nav.navbar div.container div.collapse div a.nav-link a.link-item-active:hover::after {
+    width: 100%;
+}
+
+header.header button.create-account-btn {
+    padding: 12px 18px;
+    border: solid 2px var(--lightBlue);
+    border-radius: 25px;
+    color: var(--lightBlue);
+    background: transparent;
+    transition: all 250ms ease-in-out;
+}
+
+header.header button.create-account-btn:hover {
+    color: #fefefe;
+    background-color: var(--lightBlue);
+}
+
+
+/* The Footer */
+
+
+footer div.mini-form input.email-input {
+    padding: 10px 16px;
+    background-color: transparent;
+    border: solid 1px var(--black);
+    border-radius: 2px;
+    color: #fefefe;
+}
+
+footer div.mini-form button {
+    padding: 10px 16px;
+    border: solid 1px var(--black);
+    border-radius: 2px;
+    color: var(--black);
+    background-color: var(--blue);
+    font-size: 1.1em;
+    transition: background-color 200ms ease-in-out;
+}
+
+footer div.mini-form button:hover {
+    background-color: var(--lightBlue);
+}

@@ -1,0 +1,25 @@
+section.cars-section {
+    background-color: #e5f0ff;
+}
+
+/* Prevent horizontal scrolling */
+section.cars-section {
+    background-color: #e5f0ff;
+    overflow-x: hidden; /* This will prevent horizontal scrolling */
+}
+
+div.mobile-filter {
+    position: absolute;
+    overflow-y: auto; /* Allow vertical scrolling if content is too tall */
+    height: 60vh;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: translateX(100vw); /* Translate relative to its own width */
+    transition: 250ms transform ease-in-out;
+    z-index: 999;
+}
+
+div.mobile-filter.active {
+    transform: translateX(0); /* Bring into view when active */
+}

@@ -1,0 +1,14 @@
+button.submit-btn {
+    width: 100%;
+    background-color: var(--lightBlue);
+    color: #fefefe;
+    background-color: var(--lightBlue);
+    padding: 9px 20px;
+    border: none;
+    transition: 250ms all ease-in-out;
+}
+
+button.submit-btn:hover,
+button.submit-btn:active {
+    background-color: var(--highBlue);
+}

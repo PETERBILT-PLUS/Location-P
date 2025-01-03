@@ -1,0 +1,27 @@
+button.edit-car-btn {
+    padding: 9px 16px;
+    border: solid 1px var(--lightBlue);
+    color: var(--lightBlue);
+    background: transparent;
+    border-radius: 5px;
+    transition: 250ms all ease-in-out;
+}
+
+button.edit-car-btn:hover {
+    background-color: var(--lightBlue);
+    color: #fefefe;
+}
+
+button.delete-car-btn {
+    padding: 9px 16px;
+    border: solid 1px var(--red);
+    color: var(--red);
+    background: transparent;
+    border-radius: 5px;
+    transition: 250ms all ease-in-out;
+}
+
+button.delete-car-btn:hover {
+    background-color: var(--red);
+    color: #fefefe;
+}

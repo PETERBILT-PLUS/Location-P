@@ -1,0 +1,22 @@
+section.payment-section {
+    width: 100%;
+    min-height: 100vh;
+}
+
+div.payment-division {
+    padding: 30px;
+}
+
+button.pay-btn {
+    width: 100%;
+    background-color: var(--lightBlue);
+    color: #fefefe;
+    border: solid 1px var(--lightBlue);
+    transition: 250ms all ease-in-out;
+}
+
+button.pay-btn:hover,
+button.pay-btn:active {
+    background-color: var(--highBlue);
+    border-color: var(--highBlue);
+}
