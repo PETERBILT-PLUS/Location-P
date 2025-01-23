@@ -6,11 +6,6 @@ export const getSuperAdminState = async (req: Request, res: Response) => {
     try {
         const token = req.cookies.token;
 
-        console.log(req.cookies);
-        
-
-
-        console.log(token);
         // If no token is found
         if (!token) return res.status(400).json({ success: false, message: "Token non trouvé, Veuillez vous Inscrire" });
 
