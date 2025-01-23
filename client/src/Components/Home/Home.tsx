@@ -76,8 +76,6 @@ function Home() {
                 }
             });
 
-            console.log(response.data);
-
 
             const { vehicles: newVehicle, nextCursor: newNextCursor, count } = response.data;
             setMyCount(count);
@@ -95,6 +93,7 @@ function Home() {
                 toast.warning(error.response?.data.message || 'Error fetching vehicles');
             } else {
                 toast.error("An Error Happened While Fetching Data");
+                console.log(error);
             }
         } finally {
             setLoading(false);
