@@ -50,6 +50,7 @@ function SuperAdminLayout() {
                         <NavLink to="/super-admin/utilisateurs" className={({ isActive }) => isActive ? "link active w-100 py-3 px-5 text-start" : `link w-100 py-3 px-5 text-start`}>Utilisateurs</NavLink>
                         <NavLink to="/super-admin/reservations" className={({ isActive }) => isActive ? "link active w-100 py-3 px-5 text-start" : `link w-100 py-3 px-5 text-start`}>Réservations</NavLink>
                         <NavLink to="/super-admin/agences" className={({ isActive }) => isActive ? "link active w-100 py-3 px-5 text-start" : `link w-100 py-3 px-5 text-start`}>Agences</NavLink>
+                        <NavLink to="/super-admin/analytics" className={({ isActive }) => isActive ? "link active w-100 py-3 px-5 text-start" : `link w-100 py-3 px-5 text-start`}>Analytics</NavLink>
                     </div>
                 </Col>
 

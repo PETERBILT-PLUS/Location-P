@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getReservations = exports.deleteUser = exports.getDashboard = exports.getAgencys = exports.getUserReservations = exports.getUsers = void 0;
+exports.getAnalytics = exports.getReservations = exports.deleteUser = exports.getDashboard = exports.getAgencys = exports.getUserReservations = exports.getUsers = void 0;
 const user_model_1 = __importDefault(require("../Model/user.model"));
 const agency_modal_1 = __importDefault(require("../Model/agency.modal"));
 const reservation_model_1 = __importDefault(require("../Model/reservation.model"));
+const big_integer_1 = __importDefault(require("big-integer")); // Import the big-integer library
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const skip = req.query.skip ? Number(req.query.skip) : 0;
@@ -144,3 +145,51 @@ const getReservations = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getReservations = getReservations;
+const getAnalytics = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const now = new Date();
+        // 1. Find all agencies that have paid
+        const agencies = yield agency_modal_1.default.find({
+            isPay: true, // Agencies that have paid
+            lastPay: { $lt: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000) }, // Last payment was more than 30 days ago
+        });
+        let totalMoneyToTake = (0, big_integer_1.default)(0); // Money to keep (agencies with reservations)
+        let totalMoneyToRefund = (0, big_integer_1.default)(0); // Money to refund (agencies without reservations)
+        const paymentAmountPerAgency = (0, big_integer_1.default)(990); // $9.90 in cents
+        // 2. Process each agency
+        for (const agency of agencies) {
+            // Check if the agency has any reservations
+            const reservations = yield reservation_model_1.default.countDocuments({
+                agency: agency._id,
+            });
+            if (reservations > 0) {
+                // Agency has reservations: add to money to take
+                totalMoneyToTake = totalMoneyToTake.add(paymentAmountPerAgency);
+            }
+            else {
+                // Agency has no reservations: add to money to refund
+                totalMoneyToRefund = totalMoneyToRefund.add(paymentAmountPerAgency);
+            }
+        }
+        // 3. Convert amounts back to dollars
+        const totalMoneyToTakeInDollars = totalMoneyToTake.divide(100).toString();
+        const totalMoneyToRefundInDollars = totalMoneyToRefund.divide(100).toString();
+        // 4. Return the analytics data
+        res.status(200).json({
+            success: true,
+            data: {
+                totalMoneyToTake: `${totalMoneyToTakeInDollars} USD`, // Money to keep
+                totalMoneyToRefund: `${totalMoneyToRefundInDollars} USD`, // Money to refund
+            },
+        });
+    }
+    catch (error) {
+        console.error("Error fetching analytics:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch analytics data.",
+            error: error.message,
+        });
+    }
+});
+exports.getAnalytics = getAnalytics;

@@ -32,6 +32,7 @@ import SuperAdminUserReservations from './Components/SuperAdminUserReservations/
 import SuperAdminAgencys from './Components/SuperAdminAgencys/SuperAdminAgencys.tsx';
 import SuperAdminDashboard from './Components/SuperAdminDashboard/SuperAdminDashboard.tsx';
 import SuperAdminReservations from './Components/SuperAdminReservations/SuperAdminReservations.tsx';
+import SuperAdminAnalytics from "./Components/SuperAdminAnalytics/SuperAdminAnalytics.tsx";
 import Page404 from './Components/Page404/Page404.tsx';
 
 
@@ -52,6 +53,7 @@ function App() {
         <Route path="get-user-reservations/:id" element={<SuperAdminUserReservations />}></Route>
         <Route path="agences" element={<SuperAdminAgencys />}></Route>
         <Route path="reservations" element={<SuperAdminReservations />}></Route>
+        <Route path="analytics" element={<SuperAdminAnalytics />}></Route>
       </Route>
 
       {/* For the Agency Admin Routes*/}

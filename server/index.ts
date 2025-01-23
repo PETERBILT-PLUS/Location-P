@@ -95,7 +95,7 @@ export const checkAndRefundAgencies = async () => {
     for (const agency of agencies) {
         const reservations: IReservation[] = await reservationModel.find({
             agency: agency._id,
-            timeStart: { $gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000) }, // Last 30 days
+            timeStart: { $gte: agency.lastPay }, // Last 30 days
         });
 
         if (reservations.length === 0) {

@@ -1,6 +1,6 @@
 import express from "express";
 import { protectSuperAdmin } from "../middleware/protectSuperAdmin.js";
-import { deleteUser, getAgencys, getDashboard, getReservations, getUserReservations, getUsers } from "../Controller/superAdmin.controller.js";
+import { deleteUser, getAgencys, getDashboard, getReservations, getUserReservations, getUsers, getAnalytics } from "../Controller/superAdmin.controller.js";
 
 const superAdminRouter = express.Router();
 
@@ -9,6 +9,7 @@ superAdminRouter.get("/get-user-reservations", protectSuperAdmin, getUserReserva
 superAdminRouter.get("/get-agencys", protectSuperAdmin, getAgencys);
 superAdminRouter.get("/get-dashboard", protectSuperAdmin, getDashboard);
 superAdminRouter.get("/get-reservations", protectSuperAdmin, getReservations);
+superAdminRouter.get("/get-analytics", protectSuperAdmin, getAnalytics)
 superAdminRouter.delete("/delete-user", protectSuperAdmin, deleteUser);
 
 export default superAdminRouter;

@@ -102,7 +102,7 @@ const checkAndRefundAgencies = () => __awaiter(void 0, void 0, void 0, function*
     for (const agency of agencies) {
         const reservations = yield reservation_model_js_1.default.find({
             agency: agency._id,
-            timeStart: { $gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000) }, // Last 30 days
+            timeStart: { $gte: agency.lastPay }, // Last 30 days
         });
         if (reservations.length === 0) {
             try {

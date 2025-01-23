@@ -12,5 +12,6 @@ superAdminRouter.get("/get-user-reservations", protectSuperAdmin_js_1.protectSup
 superAdminRouter.get("/get-agencys", protectSuperAdmin_js_1.protectSuperAdmin, superAdmin_controller_js_1.getAgencys);
 superAdminRouter.get("/get-dashboard", protectSuperAdmin_js_1.protectSuperAdmin, superAdmin_controller_js_1.getDashboard);
 superAdminRouter.get("/get-reservations", protectSuperAdmin_js_1.protectSuperAdmin, superAdmin_controller_js_1.getReservations);
+superAdminRouter.get("/get-analytics", protectSuperAdmin_js_1.protectSuperAdmin, superAdmin_controller_js_1.getAnalytics);
 superAdminRouter.delete("/delete-user", protectSuperAdmin_js_1.protectSuperAdmin, superAdmin_controller_js_1.deleteUser);
 exports.default = superAdminRouter;

@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import userModel, { IUser } from "../Model/user.model";
 import agencyModal, { IAgency } from "../Model/agency.modal";
 import reservationModel, { IReservation } from "../Model/reservation.model";
+import bigInt from "big-integer"; // Import the big-integer library
+
 
 export const getUsers = async (req: Request, res: Response) => {
     try {
@@ -136,5 +138,57 @@ export const getReservations = async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Error fetching reservations:", error); // Log the error for debugging
         res.status(500).json({ success: false, message: "Erreur interne du Serveur" });
+    }
+};
+
+export const getAnalytics = async (req: Request, res: Response) => {
+    try {
+        const now = new Date();
+
+        // 1. Find all agencies that have paid
+        const agencies = await agencyModal.find({
+            isPay: true, // Agencies that have paid
+            lastPay: { $lt: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000) }, // Last payment was more than 30 days ago
+        });
+
+        let totalMoneyToTake = bigInt(0); // Money to keep (agencies with reservations)
+        let totalMoneyToRefund = bigInt(0); // Money to refund (agencies without reservations)
+        const paymentAmountPerAgency = bigInt(990); // $9.90 in cents
+
+        // 2. Process each agency
+        for (const agency of agencies) {
+            // Check if the agency has any reservations
+            const reservations = await reservationModel.countDocuments({
+                agency: agency._id,
+            });
+
+            if (reservations > 0) {
+                // Agency has reservations: add to money to take
+                totalMoneyToTake = totalMoneyToTake.add(paymentAmountPerAgency);
+            } else {
+                // Agency has no reservations: add to money to refund
+                totalMoneyToRefund = totalMoneyToRefund.add(paymentAmountPerAgency);
+            }
+        }
+
+        // 3. Convert amounts back to dollars
+        const totalMoneyToTakeInDollars = totalMoneyToTake.divide(100).toString();
+        const totalMoneyToRefundInDollars = totalMoneyToRefund.divide(100).toString();
+
+        // 4. Return the analytics data
+        res.status(200).json({
+            success: true,
+            data: {
+                totalMoneyToTake: `${totalMoneyToTakeInDollars} USD`, // Money to keep
+                totalMoneyToRefund: `${totalMoneyToRefundInDollars} USD`, // Money to refund
+            },
+        });
+    } catch (error: any) {
+        console.error("Error fetching analytics:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch analytics data.",
+            error: error.message,
+        });
     }
 };
