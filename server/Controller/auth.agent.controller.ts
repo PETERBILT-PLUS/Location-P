@@ -87,7 +87,7 @@ export const loginAgent = async (req: Request, res: Response) => {
 
 export const logoutAgent = async (req: Request, res: Response) => {
     try {
-        res.cookie("token", "", { maxAge: 0 });
+        res.status(200).cookie("token", "", { maxAge: 0 });
         res.status(200).json({ success: true, message: "Déconnection Succès" });
     } catch (error) {
         console.error("Error:", error);
