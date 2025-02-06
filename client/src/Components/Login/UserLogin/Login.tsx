@@ -140,7 +140,7 @@ function Login() {
                 location="bottom"
                 buttonText="J'accepte"
                 declineButtonText="Je refuse"
-                cookieName="userConsent"
+                cookieName="token"
                 style={{ background: '#2B373B' }}
                 buttonStyle={{ background: '#4CAF50', color: '#fff', fontSize: '13px' }}
                 declineButtonStyle={{ background: '#f44336', color: '#fff', fontSize: '13px' }}
