@@ -10,6 +10,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAgency } from '../../../Configuration/agencySlice.ts';
 import { logout } from '../../../Configuration/userSlice.ts';
+import CookieConsent from "react-cookie-consent"; // Import the CookieConsent component
 
 function LoginAgent() {
     const [loading, setLoading] = React.useState<boolean>(false);
@@ -28,16 +29,17 @@ function LoginAgent() {
         try {
             setLoading(true);
             setCookieError(false); // Reset cookie error state
+
+            // Check if cookies are enabled
+            if (!document.cookie.includes('token')) {
+                setCookieError(true); // Notify user to enable cookies
+                toast.warning('Les cookies ne sont pas activés. Veuillez les activer pour vous connecter.');
+                return; // Stop further execution
+            }
+
             const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/agent/login`, values, { withCredentials: true });
 
             if (res.data.success) {
-                // Check if cookies are enabled
-                if (!document.cookie.includes('token')) {
-                    setCookieError(true); // Notify user to enable cookies
-                    toast.warning('Les cookies ne sont pas activés. Veuillez les activer pour vous connecter.');
-                    return; // Stop further execution
-                }
-
                 if (!agency) {
                     setState(true);
                 }
@@ -129,6 +131,32 @@ function LoginAgent() {
                     </div>
                 </Row>
             </Container>
+
+            {/* Cookie Consent Banner */}
+            <CookieConsent
+                location="bottom"
+                buttonText="J'accepte"
+                declineButtonText="Je refuse"
+                cookieName="userConsent"
+                style={{ background: '#2B373B' }}
+                buttonStyle={{ background: '#4CAF50', color: '#fff', fontSize: '13px' }}
+                declineButtonStyle={{ background: '#f44336', color: '#fff', fontSize: '13px' }}
+                enableDeclineButton
+                onAccept={() => {
+                    toast.success('Les cookies sont activés. Vous pouvez maintenant vous connecter.');
+                }}
+                onDecline={() => {
+                    toast.warning('Les cookies sont désactivés. Veuillez les activer pour utiliser cette application.');
+                }}
+            >
+                Ce site utilise des cookies pour améliorer l'expérience utilisateur. En continuant à naviguer, vous acceptez notre utilisation des cookies.{' '}
+                <a
+                    href="/politique-de-cookies"
+                    style={{ color: '#4CAF50' }}
+                >
+                    En savoir plus
+                </a>
+            </CookieConsent>
         </section>
     );
 }

@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../Configuration/userSlice';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
+import CookieConsent from 'react-cookie-consent'; // Import the CookieConsent component
 
 // تعريف التحقق من صحة البيانات لنموذج تسجيل الدخول
 const loginSchema = yup.object().shape({
@@ -25,6 +26,7 @@ function Login() {
     const SERVER: string = import.meta.env.VITE_SERVER as string;
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [cookieError, setCookieError] = useState<boolean>(false); // State to track cookie issues
 
     useLayoutEffect(() => {
         document.title = "Login (Utilisateur)";
@@ -32,9 +34,16 @@ function Login() {
 
     const onSubmit = async (values: ILogin, actions: FormikHelpers<ILogin>) => {
         try {
+            // Check if cookies are enabled
+            if (!document.cookie.includes('token')) {
+                setCookieError(true); // Notify user to enable cookies
+                toast.warning('Les cookies ne sont pas activés. Veuillez les activer pour vous connecter.');
+                return; // Stop further execution
+            }
+
             const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/auth/login`, values, { withCredentials: true });
             console.log(res.data);
-            
+
             if (res.data.success) {
                 if (res.data.superAdmin) {
                     // Super Admin Login
@@ -61,7 +70,6 @@ function Login() {
         }
     };
 
-
     const { errors, touched, values, isSubmitting, handleSubmit, handleChange, handleBlur } = useFormik<ILogin>({
         validationSchema: loginSchema,
         initialValues: {
@@ -77,6 +85,20 @@ function Login() {
                 <h3 className="text-center text-white title py-5">Connexion</h3>
                 <Row>
                     <div className="col-11 col-md-6 col-lg-4 mx-auto">
+                        {/* Display a warning if cookies are not enabled */}
+                        {cookieError && (
+                            <div className="alert alert-warning mb-4">
+                                Les cookies ne sont pas activés dans votre navigateur. Veuillez activer les cookies pour vous connecter.{' '}
+                                <a
+                                    href="https://support.google.com/chrome/answer/95647"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Apprenez comment activer les cookies
+                                </a>
+                                .
+                            </div>
+                        )}
                         <Form onSubmit={handleSubmit} className="agent-register-form">
                             <Form.Group className="py-2">
                                 <Form.Label htmlFor="email">Email:</Form.Label>
@@ -112,6 +134,32 @@ function Login() {
                     </div>
                 </Row>
             </Container>
+
+            {/* Cookie Consent Banner */}
+            <CookieConsent
+                location="bottom"
+                buttonText="J'accepte"
+                declineButtonText="Je refuse"
+                cookieName="userConsent"
+                style={{ background: '#2B373B' }}
+                buttonStyle={{ background: '#4CAF50', color: '#fff', fontSize: '13px' }}
+                declineButtonStyle={{ background: '#f44336', color: '#fff', fontSize: '13px' }}
+                enableDeclineButton
+                onAccept={() => {
+                    toast.success('Les cookies sont activés. Vous pouvez maintenant vous connecter.');
+                }}
+                onDecline={() => {
+                    toast.warning('Les cookies sont désactivés. Veuillez les activer pour utiliser cette application.');
+                }}
+            >
+                Ce site utilise des cookies pour améliorer l'expérience utilisateur. En continuant à naviguer, vous acceptez notre utilisation des cookies.{' '}
+                <a
+                    href="/politique-de-cookies"
+                    style={{ color: '#4CAF50' }}
+                >
+                    En savoir plus
+                </a>
+            </CookieConsent>
         </section>
     );
 }
