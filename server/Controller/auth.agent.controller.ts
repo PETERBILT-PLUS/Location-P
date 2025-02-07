@@ -76,7 +76,7 @@ export const loginAgent = async (req: Request, res: Response) => {
         const token = jwt.sign({ agency_id: agency._id }, JWT_SECRET, { expiresIn: "90d" });
         const { password, ...rest } = agency.toObject();
 
-        res.status(200).cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 90, httpOnly: true, secure: DEPLOYMENT == "development" ? false : true, sameSite: "none" });
+        res.status(200).cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 90, httpOnly: true, secure: DEPLOYMENT == "development" ? false : true, sameSite: "lax" });
         res.status(200).json({ success: true, message: "User Succesfully login", agency: rest });
     } catch (error) {
         console.error("Error:", error);
