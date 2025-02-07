@@ -37,19 +37,23 @@ function Login() {
             // Check if cookies are enabled
             if (!document.cookie.includes('token')) {
                 setCookieError(true); // Notify user to enable cookies
-                toast.warning('Les cookies ne sont pas activés. Veuillez les activer pour vous connecter.');
-                return; // Stop further execution
+                toast.warning('Les cookies ne sont pas activés. Le jeton a été stocké dans le localStorage.');
             }
 
             const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/auth/login`, values, { withCredentials: true });
             console.log(res.data);
 
             if (res.data.success) {
+                // Fallback to localStorage if cookies are not enabled
+                if (!document.cookie.includes('token')) {
+                    localStorage.setItem('token', res.data.token); // Store the token in localStorage
+                }
+
                 if (res.data.superAdmin) {
                     // Super Admin Login
                     toast.success("Connexion Super Admin réussie");
                     actions.resetForm();
-                    await new Promise((resolve) => setTimeout(resolve, 3500));
+                    await new Promise((resolve) => setTimeout(resolve, 2000));
                     navigate("/super-admin");
                 } else {
                     // Regular User Login
@@ -88,7 +92,7 @@ function Login() {
                         {/* Display a warning if cookies are not enabled */}
                         {cookieError && (
                             <div className="alert alert-warning mb-4">
-                                Les cookies ne sont pas activés dans votre navigateur. Veuillez activer les cookies pour vous connecter.{' '}
+                                Les cookies ne sont pas activés dans votre navigateur. Le jeton a été stocké dans le localStorage.{' '}
                                 <a
                                     href="https://support.google.com/chrome/answer/95647"
                                     target="_blank"

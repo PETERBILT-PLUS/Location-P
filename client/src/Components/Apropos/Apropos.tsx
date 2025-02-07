@@ -16,7 +16,7 @@ const Apropos: React.FC = () => {
                 que vous recherchiez une petite citadine, un SUV pour les voyages en famille, ou une voiture de luxe pour des occasions spéciales.
             </p>
             <p>
-                Depuis notre lancement en 2024, nous avons pour mission de rendre la location de voitures plus accessible,
+                Depuis notre lancement en 2025, nous avons pour mission de rendre la location de voitures plus accessible,
                 transparente et pratique pour tous, avec un service client de qualité et des tarifs compétitifs.
             </p>
             <p>

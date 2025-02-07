@@ -15,6 +15,7 @@ function SuperAdminDashboard() {
     const [agencys, setAgencys] = useState<number | null>(null);
     const [reservations, setReservations] = useState<number | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Super Admin Dashboard";
@@ -24,7 +25,7 @@ function SuperAdminDashboard() {
         const getSuperAdminDashboard = async () => {
             try {
                 setLoading(true);
-                const res: AxiosResponse<{ success: boolean, data: any, message?: string }> = await axios.get(`${SERVER}/super-admin/get-dashboard`, { withCredentials: true });
+                const res: AxiosResponse<{ success: boolean, data: any, message?: string }> = await axios.get(`${SERVER}/super-admin/get-dashboard`, { withCredentials: true, params: { token: token } });
                 console.log(res.data);
 
                 if (res.data.success) {

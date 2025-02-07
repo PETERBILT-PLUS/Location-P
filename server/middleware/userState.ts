@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 export const getUserState = async (req: Request, res: Response) => {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.token || req.query.token;
 
         if (!token) {
             return res.status(403).json({ success: false, message: "Token Pas Trouvé, Veiller Inscrire a Nouveau" });

@@ -13,7 +13,7 @@ function AgenceDashboadLayout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const agent = useSelector((state: any) => state.auth.agency.currentAgency);
-
+  const token: string | undefined = localStorage.getItem("token") || undefined;
 
   const handleLogout = async () => {
     try {
@@ -36,7 +36,7 @@ function AgenceDashboadLayout() {
   useEffect(() => {
     const getCookieState = async () => {
       try {
-        const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent-state/get-cookie-state`, { withCredentials: true });
+        const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent-state/get-cookie-state?token=${token}`, { withCredentials: true });
         if (res.data.success) {
           return true;
         }

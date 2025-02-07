@@ -26,7 +26,22 @@ function AgenceAdminVehicules() {
     const handleDelete = async () => {
         if (selectedCarId) {
             try {
-                const res: AxiosResponse<any, any> = await axios.delete(`${SERVER}/agent/delete-car/${selectedCarId}`, { withCredentials: true });
+                // Get the token from localStorage
+                const token: string | undefined = localStorage.getItem('token') || undefined;
+
+                if (!token) {
+                    toast.warning('Token non trouvé. Veuillez vous reconnecter.');
+                    return;
+                }
+
+                // Include the token in the query parameters
+                const res: AxiosResponse<any, any> = await axios.delete(`${SERVER}/agent/delete-car/${selectedCarId}`, {
+                    params: {
+                        token: token, // Add the token to the query parameters
+                    },
+                    withCredentials: true, // Include cookies if needed
+                });
+
                 if (res.data.success) {
                     toast.success('Voiture supprimée avec succès');
                     setData(data.filter(car => car._id !== selectedCarId));
@@ -46,7 +61,22 @@ function AgenceAdminVehicules() {
     useEffect(() => {
         const getAgencyCars = async () => {
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-cars`, { withCredentials: true });
+                // Get the token from localStorage
+                const token = localStorage.getItem('token');
+
+                if (!token) {
+                    toast.warning('Token non trouvé. Veuillez vous reconnecter.');
+                    return;
+                }
+
+                // Include the token in the query parameters
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-cars`, {
+                    params: {
+                        token: token, // Add the token to the query parameters
+                    },
+                    withCredentials: true, // Include cookies if needed
+                });
+
                 if (res.data.success) {
                     setData(res.data.data);
                 }
@@ -72,7 +102,7 @@ function AgenceAdminVehicules() {
                             <Card className="shadow h-100">
                                 <Card.Header className="py-3 text-center bg-primary text-white">Vehicules</Card.Header>
                                 <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-                                    <Card.Text className="mb-0">{data.length === 0 ? null : data.length } {!data.length ? "Pas De Voitures" : data.length === 1 ? "Vehicule" : "Vehicules"}</Card.Text>
+                                    <Card.Text className="mb-0">{data.length === 0 ? null : data.length} {!data.length ? "Pas De Voitures" : data.length === 1 ? "Vehicule" : "Vehicules"}</Card.Text>
                                     <FontAwesomeIcon icon={faCar} className="text-muted mt-3 fs-4" />
                                 </Card.Body>
                             </Card>
@@ -90,10 +120,10 @@ function AgenceAdminVehicules() {
                                 return (
                                     <Col key={elem._id}>
                                         <Card className="shadow h-100">
-                                            <Card.Img 
-                                                variant="top" 
-                                                src={elem.carPhotos[0]} 
-                                                style={{ objectFit: "cover", height: "200px" }} 
+                                            <Card.Img
+                                                variant="top"
+                                                src={elem.carPhotos[0]}
+                                                style={{ objectFit: "cover", height: "200px" }}
                                             />
                                             <Card.Body>
                                                 <Card.Title className="text-primary">Nom: {elem.carName}</Card.Title>
@@ -103,8 +133,8 @@ function AgenceAdminVehicules() {
                                                     <Link to={`/agence-dashboard/edit-vehicule/${elem._id}`}>
                                                         <button className="edit-car-btn btn btn-sm btn-outline-primary">Modifier</button>
                                                     </Link>
-                                                    <button 
-                                                        className="delete-car-btn btn btn-sm btn-outline-danger" 
+                                                    <button
+                                                        className="delete-car-btn btn btn-sm btn-outline-danger"
                                                         onClick={() => handleShow(elem._id)}
                                                     >
                                                         Supprimer

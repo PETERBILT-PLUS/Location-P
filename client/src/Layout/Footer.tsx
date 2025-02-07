@@ -13,7 +13,7 @@ function Footer() {
                 </div>
             </div>
             <div className="text-center p-3 border-top py-4">
-                © 2024 VRENTAUTO - Tous droits réservés
+                © 2025 VRENTAUTO - Tous droits réservés
             </div>
         </footer>
     );

@@ -11,6 +11,7 @@ function SuperAdminReservations() {
     const [reservations, setReservations] = useState<any[]>([]);
     const [search, setSearch] = useState<string>("");
     const SERVER: string = import.meta.env.VITE_SERVER as string;
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Réservations";
@@ -20,7 +21,7 @@ function SuperAdminReservations() {
     useEffect(() => {
         const getReservations = async () => {
             try {
-                const res: AxiosResponse<{ success: boolean, reservations: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-reservations?skip=${reservations.length ? reservations.length : 0}`, { withCredentials: true });
+                const res: AxiosResponse<{ success: boolean, reservations: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-reservations?skip=${reservations.length ? reservations.length : 0}`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     console.log(res.data);
                     setReservations((prev) => [...prev, ...res.data.reservations]);
@@ -47,8 +48,8 @@ function SuperAdminReservations() {
 
             if (scrollTop + offsetHeight >= scrollHeight - 10) {
                 console.log("it's workin hahaha");
-                
-                const res: AxiosResponse<{ success: boolean, reservations: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-reservations?skip=${reservations.length}&search=${search}`, { withCredentials: true });
+
+                const res: AxiosResponse<{ success: boolean, reservations: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-reservations?skip=${reservations.length}&search=${search}`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     setReservations((prev) => [...prev, ...res.data.reservations]);
                 }
@@ -68,14 +69,14 @@ function SuperAdminReservations() {
             const value = e.target.value.trim();
             setSearch(value);
             if (!value) {
-                const res: AxiosResponse<{ success: boolean, reservations: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-reservations?search=${value}`, { withCredentials: true });
+                const res: AxiosResponse<{ success: boolean, reservations: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-reservations?search=${value}`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     setReservations([...res.data.reservations]);
                 }
                 return;
             }
 
-            const res: AxiosResponse<{ success: boolean, reservations: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-reservations?search=${value}`, { withCredentials: true });
+            const res: AxiosResponse<{ success: boolean, reservations: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-reservations?search=${value}`, { withCredentials: true, params: { token: token } });
 
             // Check if the response status is 204
             if (res.status === 204) {

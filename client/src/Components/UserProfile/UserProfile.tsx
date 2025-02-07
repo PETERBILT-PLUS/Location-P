@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 
 function UserProfile() {
     const SERVER: string = import.meta.env.VITE_SERVER as string;
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Profile";
@@ -16,7 +17,7 @@ function UserProfile() {
     useEffect(() => {
         const getUserProfile = async () => {
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/user/get-profile`, { withCredentials: true });
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/user/get-profile`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     console.log(res.data);
                     const profile = res.data.profile;
@@ -43,7 +44,7 @@ function UserProfile() {
 
     const onSubmit = async (state: IUserProfile) => {
         try {
-            const res: AxiosResponse<any, any> = await axios.put(`${SERVER}/user/update-profile`, state, { withCredentials: true });
+            const res: AxiosResponse<any, any> = await axios.put(`${SERVER}/user/update-profile`, state, { withCredentials: true, params: { token: token } });
             if (res.data.success) {
                 toast.success("Compte Améliorer avec Succès");
             }

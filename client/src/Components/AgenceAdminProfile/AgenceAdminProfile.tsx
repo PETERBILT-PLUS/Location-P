@@ -61,6 +61,7 @@ function AgenceAdminProfile() {
         "Zagora"
     ];
     const SERVER: string = import.meta.env.VITE_SERVER as string;
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Profile";
@@ -70,7 +71,7 @@ function AgenceAdminProfile() {
     useEffect(() => {
         const getUserProfile = async () => {
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-agent-profile`, { withCredentials: true });
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-agent-profile?token=${token}`, { withCredentials: true });
                 if (res.data.success) {
                     console.log(res.data);
 

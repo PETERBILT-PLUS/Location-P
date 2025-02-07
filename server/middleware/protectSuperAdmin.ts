@@ -12,7 +12,7 @@ declare global {
 
 export const protectSuperAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.token || req.query.token;
 
         if (!token) return res.status(401).json({ success: false, message: "Token Pas Trouvé, Veuillez Vous Inscrire" });
 

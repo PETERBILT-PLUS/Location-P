@@ -17,6 +17,7 @@ function EditVehicule() {
     const [uploadByte, setUploadByte] = useState<number>(0);
     const [imageLoading, setImageLoading] = useState<boolean>(false);
     const params = useParams();
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Modifier un Vehicule";
@@ -25,12 +26,12 @@ function EditVehicule() {
     useEffect(() => {
         const getVehiculeDetails = async () => {
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-single-car/${params.id}`, { withCredentials: true });
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-single-car/${params.id}`, { withCredentials: true, params: { token: token } });
                 console.log(res.data);
-                
+
                 if (res.data.success) {
                     const car = res.data.data;
-    
+
                     setValues({
                         carName: car.carName,
                         carEtat: car.carEtat,
@@ -64,11 +65,11 @@ function EditVehicule() {
                 console.error("Error fetching vehicle details", error);
             }
         };
-    
+
         getVehiculeDetails();
     }, []);
-    
-    
+
+
 
 
     const handleImageSubmit = () => {
@@ -262,7 +263,7 @@ function EditVehicule() {
 
                                 <Form.Group className="mb-3">
                                     <Form.Label className="px-1">Date d'immatriculation</Form.Label>
-                                    <Form.Control type="date" value={values.registration?.registrationDate} onChange={handleChange} onBlur={handleBlur}  name="registration.registrationDate" />
+                                    <Form.Control type="date" value={values.registration?.registrationDate} onChange={handleChange} onBlur={handleBlur} name="registration.registrationDate" />
                                     {errors.registration?.registrationDate && touched.registration?.registrationDate && <h6 className="text-danger py-2 px-1">{errors.registration?.registrationDate}</h6>}
                                 </Form.Group>
 

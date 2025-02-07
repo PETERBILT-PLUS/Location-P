@@ -10,6 +10,7 @@ function AgencyNotifications() {
     const [notifications, setNotifications] = useState<any[]>([]);
     const SERVER: string = import.meta.env.VITE_SERVER as string;
     const socket = useSocketContext();
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Notifications";
@@ -18,7 +19,7 @@ function AgencyNotifications() {
     useEffect(() => {
         const getNotifications = async () => {
             try {
-                const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent/get-notifications`, { withCredentials: true });
+                const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent/get-notifications?token=${token}`, { withCredentials: true });
                 if (res.data.success) {
                     setNotifications(res.data.data);
                 }
@@ -40,7 +41,7 @@ function AgencyNotifications() {
     useEffect(() => {
         const updateNotifications = async () => {
             try {
-                const res: AxiosResponse<any> = await axios.post(`${SERVER}/agent/update-notifications`, null, { withCredentials: true });
+                const res: AxiosResponse<any> = await axios.post(`${SERVER}/agent/update-notifications?token=${token}`, null, { withCredentials: true });
                 if (res.data.success) {
                     return true;
                 }

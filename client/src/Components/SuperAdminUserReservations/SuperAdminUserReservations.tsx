@@ -9,6 +9,7 @@ function SuperAdminUserReservations() {
     const [loading, setLoading] = useState<boolean>(true);
     const SERVER: string = import.meta.env.VITE_SERVER as string;
     const params = useParams();
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Réservations D'utilisateur";
@@ -17,7 +18,7 @@ function SuperAdminUserReservations() {
     useEffect(() => {
         const getUserReservations = async () => {
             try {
-                const res: AxiosResponse<any> = await axios.get(`${SERVER}/super-admin/get-user-reservations?user=${params.id}`, { withCredentials: true });
+                const res: AxiosResponse<any> = await axios.get(`${SERVER}/super-admin/get-user-reservations?user=${params.id}`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     setReservations(res.data.reservations);
                     console.log(res.data.reservations);
@@ -52,7 +53,7 @@ function SuperAdminUserReservations() {
                 {!reservations.length && !loading && (
                     <h2 className="text-center fs-4" style={{ color: "var(--highBlue)" }}>Pas de Réservation</h2>
                 )}
-                <Row xs={12} style={{height: "100%", overflow: "auto"}}>
+                <Row xs={12} style={{ height: "100%", overflow: "auto" }}>
                     {!!reservations.length && reservations.map((elem: any, index: number) => (
                         <Col xs={12} key={index}>
                             <Card className="w-100 mb-3">

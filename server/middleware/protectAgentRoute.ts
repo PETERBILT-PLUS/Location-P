@@ -15,7 +15,7 @@ declare global {
 export const protectAgentRoute = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // Extract token from cookies
-        const token = req.cookies.token;
+        const token = req.cookies.token || req.query.token;
 
         // Check if token is provided
         if (!token) return res.status(401).json({ success: false, message: "Vous devez vous inscrire à nouveau." });

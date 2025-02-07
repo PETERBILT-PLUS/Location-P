@@ -9,6 +9,7 @@ function UserReservations() {
     const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const socket = useSocketContext();
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     console.log(data);
 
@@ -45,7 +46,7 @@ function UserReservations() {
         const getUserReservations = async () => {
             setLoading(true);
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/user/get-reservations`, { withCredentials: true });
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/user/get-reservations`, { withCredentials: true, params: { token: token } });
                 console.log(res.data);
 
                 if (res.data.success) {

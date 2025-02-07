@@ -11,6 +11,7 @@ function Payment() {
     const [loading, setLoading] = useState<boolean>(false);
     const [tryFree, setTryFree] = useState<boolean>();
     const navigate = useNavigate();
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Payment";
@@ -20,10 +21,10 @@ function Payment() {
         const getState = async () => {
             setLoading(true);
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent-state/get-payment-state`, { withCredentials: true });
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent-state/get-payment-state?token=${token}`, { withCredentials: true });
                 if (res.data.success) {
                     setTryFree(res.data.tryFree);
-                }                
+                }
             } catch (error: any) {
                 if (axios.isAxiosError(error)) {
                     toast.warning(error.response?.data.message);

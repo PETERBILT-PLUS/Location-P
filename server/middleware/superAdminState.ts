@@ -4,12 +4,12 @@ import superAdminModal, { ISuperAdmin } from "../Model/superAdmin.modal.js";
 
 export const getSuperAdminState = async (req: Request, res: Response) => {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.token || req.query.token;
 
         // If no token is found
         if (!token) return res.status(400).json({ success: false, message: "Token non trouvé, Veuillez vous Inscrire" });
 
-        
+
 
         const JWT_SECRET: string = process.env.JWT_SECRET as string;
         if (!JWT_SECRET) throw new Error("Le JWT_SECRET n'est pas disponible, veuillez vérifier le fichier .env");
@@ -19,7 +19,7 @@ export const getSuperAdminState = async (req: Request, res: Response) => {
             // Add logic here to handle the decoded token (e.g., fetch user data)
 
             const superAdminExist: ISuperAdmin | null = await superAdminModal.findById(decode._id);
-            
+
             if (!superAdminExist) return res.status(404).json({ success: false, message: "Admin Pas Trouvé" });
 
             res.status(200).json({ success: true, isAdmin: true });

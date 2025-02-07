@@ -8,7 +8,7 @@ export const registerAgent = async (req: Request, res: Response) => {
     try {
         // Input validation
         const {
-            nom, prenom, email, password,telephone: phoneNumber, adress: address, ville: city, website, numeroDinscription: registrationNumber,
+            nom, prenom, email, password, telephone: phoneNumber, adress: address, ville: city, website, numeroDinscription: registrationNumber,
             numeroDeLisenceCommercial: businessLicenseNumber, NumeroDePoliceDassurance: insurancePolicyNumber, localisation, paypalAccountId
         } = req.body;
 
@@ -77,7 +77,7 @@ export const loginAgent = async (req: Request, res: Response) => {
         const { password, ...rest } = agency.toObject();
 
         res.status(200).cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 90, httpOnly: true, secure: DEPLOYMENT == "development" ? false : true, sameSite: "none" });
-        res.status(200).json({ success: true, message: "User Succesfully login", agency: rest });
+        res.status(200).json({ success: true, message: "User Succesfully login", agency: rest, token: token });
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({ success: false, message: "Internal Server Error" });

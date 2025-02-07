@@ -8,6 +8,7 @@ function SuperAdminUsers() {
     const [users, setUsers] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const SERVER: string = import.meta.env.VITE_SERVER as string;
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Utilisateurs";
@@ -16,7 +17,7 @@ function SuperAdminUsers() {
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const res: AxiosResponse<any> = await axios.get(`${SERVER}/super-admin/get-users`, { withCredentials: true });
+                const res: AxiosResponse<any> = await axios.get(`${SERVER}/super-admin/get-users`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     setUsers(res.data.users);
                     console.log(res.data.users);
@@ -58,7 +59,7 @@ function SuperAdminUsers() {
         if (scrollTop + offsetHeight >= scrollHeight - 1) {
             getMoreUsers();
             console.log("scroll to the bottom");
-            
+
         }
     };
 

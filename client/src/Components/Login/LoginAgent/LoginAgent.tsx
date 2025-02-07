@@ -31,15 +31,16 @@ function LoginAgent() {
             setCookieError(false); // Reset cookie error state
 
             const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/agent/login`, values, { withCredentials: true });
-            // Check if cookies are enabled
-            if (!document.cookie.includes('token')) {
-                setCookieError(true); // Notify user to enable cookies
-                toast.warning('Les cookies ne sont pas activés. Veuillez les activer pour vous connecter.');
-                return; // Stop further execution
-            }
-
 
             if (res.data.success) {
+                // Check if cookies are enabled
+                if (!document.cookie.includes('token')) {
+                    // Fallback to localStorage if cookies are not enabled
+                    localStorage.setItem('token', res.data.token);
+                    setCookieError(true); // Notify user to enable cookies
+                    toast.warning('Les cookies ne sont pas activés. Le jeton a été stocké dans le localStorage.');
+                }
+
                 if (!agency) {
                     setState(true);
                 }
@@ -81,7 +82,7 @@ function LoginAgent() {
                         {/* Display a warning if cookies are not enabled */}
                         {cookieError && (
                             <Alert variant="warning" className="mb-4">
-                                Les cookies ne sont pas activés dans votre navigateur. Veuillez activer les cookies pour vous connecter.{' '}
+                                Les cookies ne sont pas activés dans votre navigateur. Le jeton a été stocké dans le localStorage.{' '}
                                 <a
                                     href="https://support.google.com/chrome/answer/95647"
                                     target="_blank"

@@ -68,9 +68,11 @@ function Header() {
                 if (authAgency) {
                     dispatch(logoutAgency());
                     navigate("/login-agent");
+                    localStorage.removeItem("token");
                 } else if (authUser) {
                     dispatch(logout());
                     navigate("/login");
+                    localStorage.removeItem("token");
                 }
             }
         } catch (error) {

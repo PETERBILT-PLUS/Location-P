@@ -16,6 +16,7 @@ function AdminDashboard() {
     const SERVER: string = import.meta.env.VITE_SERVER as string;
     const agency = useSelector((state: any) => state.auth.agency.currentAgency);
     const socket = useSocketContext();
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Tableau de Board";
@@ -26,7 +27,7 @@ function AdminDashboard() {
         const getDashboard = async () => {
             setLoading(true);
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-dashboard`, { withCredentials: true });
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-dashboard?token=${token}`, { withCredentials: true });
                 console.log(res.data);
                 if (res.data.success) {
                     setData(res.data.data);

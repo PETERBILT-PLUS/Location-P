@@ -9,17 +9,18 @@ function CheckState() {
     const user = useSelector((state: any) => state.auth.user.currentUser);
     const agency = useSelector((state: any) => state.auth.agency.currentAgency);
     const SERVER: string = import.meta.env.VITE_SERVER as string;
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     React.useEffect(() => {
         const getState = async () => {
             try {
                 if (user) {
-                    const res: AxiosResponse<any> = await axios.get(`${SERVER}/user-state/get-state`, { withCredentials: true });
+                    const res: AxiosResponse<any> = await axios.get(`${SERVER}/user-state/get-state?token=${token}`, { withCredentials: true });
                     if (res.data.success) {
                         return true;
                     }
                 } else if (agency) {
-                    const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent-state/agent-subscription-state`, { withCredentials: true });
+                    const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent-state/agent-subscription-state?token=${token}`, { withCredentials: true });
                     if (res.data.success) {
                         return true;
                     }

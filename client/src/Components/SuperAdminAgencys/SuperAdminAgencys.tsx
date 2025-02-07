@@ -29,6 +29,7 @@ function SuperAdminAgencys() {
     const [loading, setLoading] = useState<boolean>(true);
     const [agencys, setAgencys] = useState<Agency[]>([]);
     const SERVER: string = import.meta.env.VITE_SERVER as string;
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Agences";
@@ -37,7 +38,7 @@ function SuperAdminAgencys() {
     useEffect(() => {
         const getAgencys = async () => {
             try {
-                const res: AxiosResponse<{ success: boolean; agencys: Agency[] }> = await axios.get(`${SERVER}/super-admin/get-agencys`, { withCredentials: true });
+                const res: AxiosResponse<{ success: boolean; agencys: Agency[] }> = await axios.get(`${SERVER}/super-admin/get-agencys`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     setAgencys(res.data.agencys);
                     console.log(res.data.agencys);
@@ -64,7 +65,7 @@ function SuperAdminAgencys() {
         if (offsetHeight + scrollTop >= scrollHeight - 10) {
             try {
                 console.log("working hahaha");
-                
+
                 const res: AxiosResponse<{ success: boolean, agencys: Agency[] }> = await axios.get(`${SERVER}/super-admin/get-agencys?skip=${agencys.length}`, { withCredentials: true });
                 if (res.data.success) {
                     setAgencys((prev: any) => [...prev, ...res.data.agencys]);
@@ -83,7 +84,7 @@ function SuperAdminAgencys() {
     return (
         <div className="py-5 bg-light min-vh-100" style={{ height: "100vh", overflowY: "auto" }} onScroll={handleScroll}>
             <Container>
-                <h1 className="fs-3 text-center pb-5 pt-2" style={{color: "var(--lightBlue)"}}>Agences:</h1>
+                <h1 className="fs-3 text-center pb-5 pt-2" style={{ color: "var(--lightBlue)" }}>Agences:</h1>
 
                 {/* Display loading spinner or the agencies list */}
                 {loading ? (

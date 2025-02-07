@@ -45,6 +45,7 @@ function CreateListing() {
     const [imageLoading, setImageLoading] = React.useState<boolean>(false);
     const [files, setFiles] = React.useState<any>([]);
     const SERVER: string = import.meta.env.VITE_SERVER as string;
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useLayoutEffect(() => {
         document.title = "Ajouter un Vehicule";
@@ -108,7 +109,7 @@ function CreateListing() {
     const onSubmit = async (values: FormValues, actions: FormikHelpers<FormValues>) => {
         if (values.carPhotos.length < 3) return toast.warning("Minimum 3 photos");
         try {
-            const res: AxiosResponse<any> = await axios.post(`${SERVER}/cars/create-listing`, values, { withCredentials: true });
+            const res: AxiosResponse<any> = await axios.post(`${SERVER}/cars/create-listing?token=${token}`, values, { withCredentials: true });
             if (res.data.success) {
                 actions.resetForm();
             }

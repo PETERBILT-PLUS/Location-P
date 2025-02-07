@@ -111,7 +111,7 @@ export const login = async (req: Request, res: Response) => {
                 sameSite: "none",
                 secure: DEPLOYMENT == "development" ? false : true,
             })
-            return res.status(200).json({ success: true, superAdmin: true });
+            return res.status(200).json({ success: true, superAdmin: true, token: token });
         }
         if (!findUser) return res.status(404).json({ success: false, message: "Certaines des informations ou toutes les informations fournies sont incorrectes. Veuillez vérifier et réessayer." });
         const passwordIsMatch = await bcrypt.compare(password, findUser.password);
@@ -133,7 +133,7 @@ export const login = async (req: Request, res: Response) => {
             secure: DEPLOYMENT === "development" ? false : true,
             sameSite: "none" // Only secure in production mode (https)
         });
-        res.status(200).json({ success: true, message: "User Sign In Succesful", user: findUser.toObject() });
+        res.status(200).json({ success: true, message: "User Sign In Succesful", user: findUser.toObject(), token: token });
     } catch (error) {
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }

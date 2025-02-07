@@ -10,12 +10,13 @@ const AnalyticsDashboard: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const SERVER: string = import.meta.env.VITE_SERVER as string;
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     // Fetch analytics data from the backend
     useEffect(() => {
         const fetchAnalytics = async () => {
             try {
-                const response = await axios.get(`${SERVER}/super-admin/get-analytics`, { withCredentials: true }); // Replace with your API endpoint
+                const response = await axios.get(`${SERVER}/super-admin/get-analytics`, { withCredentials: true, params: { token: token } }); // Replace with your API endpoint
                 setAnalyticsData(response.data.data);
                 setError(null);
             } catch (err) {
