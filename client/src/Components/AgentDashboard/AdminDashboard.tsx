@@ -27,7 +27,7 @@ function AdminDashboard() {
         const getDashboard = async () => {
             setLoading(true);
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-dashboard?token=${token}`, { withCredentials: true });
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-dashboard`, { withCredentials: true, params: { token: token } });
                 console.log(res.data);
                 if (res.data.success) {
                     setData(res.data.data);
