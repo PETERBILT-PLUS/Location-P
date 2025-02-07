@@ -82,7 +82,7 @@ const loginAgent = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         // Generate JWT token
         const token = jsonwebtoken_1.default.sign({ agency_id: agency._id }, JWT_SECRET, { expiresIn: "90d" });
         const _a = agency.toObject(), { password } = _a, rest = __rest(_a, ["password"]);
-        res.status(200).cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 90, httpOnly: true, secure: DEPLOYMENT == "development" ? false : true, sameSite: "none" });
+        res.status(200).cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 90, httpOnly: true, secure: DEPLOYMENT == "development" ? false : true, sameSite: "strict" });
         res.status(200).json({ success: true, message: "User Succesfully login", agency: rest });
     }
     catch (error) {
@@ -93,7 +93,7 @@ const loginAgent = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.loginAgent = loginAgent;
 const logoutAgent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.cookie("token", "", { maxAge: 0 });
+        res.status(200).cookie("token", "", { maxAge: 0 });
         res.status(200).json({ success: true, message: "Déconnection Succès" });
     }
     catch (error) {
