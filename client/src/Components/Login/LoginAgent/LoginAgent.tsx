@@ -30,6 +30,7 @@ function LoginAgent() {
             setLoading(true);
             setCookieError(false); // Reset cookie error state
 
+            const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/agent/login`, values, { withCredentials: true });
             // Check if cookies are enabled
             if (!document.cookie.includes('token')) {
                 setCookieError(true); // Notify user to enable cookies
@@ -37,7 +38,6 @@ function LoginAgent() {
                 return; // Stop further execution
             }
 
-            const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/agent/login`, values, { withCredentials: true });
 
             if (res.data.success) {
                 if (!agency) {
