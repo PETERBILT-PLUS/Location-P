@@ -17,7 +17,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const agency_modal_1 = __importDefault(require("../Model/agency.modal"));
 const getAgentState = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.token || req.query.token;
         if (!token) {
             return res.status(403).json({ success: false, message: "Pas Autorisé: Token Pas Trouvé" });
         }

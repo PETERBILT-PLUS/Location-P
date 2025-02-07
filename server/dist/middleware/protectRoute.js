@@ -19,7 +19,7 @@ const user_model_js_1 = __importDefault(require("../Model/user.model.js"));
 const protectRoute = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Extract token from cookies
-        const token = req.cookies.token;
+        const token = req.cookies.token || req.query.token;
         // Check if token is provided
         if (!token)
             return res.status(401).json({ success: false, message: "Vous devez vous inscrire à nouveau." });

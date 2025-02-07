@@ -17,6 +17,8 @@ function AdminDashboard() {
     const agency = useSelector((state: any) => state.auth.agency.currentAgency);
     const socket = useSocketContext();
     const token: string | undefined = localStorage.getItem("token") || undefined;
+    console.log(token);
+    
 
     useLayoutEffect(() => {
         document.title = "Tableau de Board";

@@ -40,7 +40,7 @@ const jsonwebtoken_1 = __importStar(require("jsonwebtoken"));
 const superAdmin_modal_1 = __importDefault(require("../Model/superAdmin.modal"));
 const protectSuperAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.token || req.query.token;
         if (!token)
             return res.status(401).json({ success: false, message: "Token Pas Trouvé, Veuillez Vous Inscrire" });
         const JWT_SECRET = process.env.JWT_SECRET;

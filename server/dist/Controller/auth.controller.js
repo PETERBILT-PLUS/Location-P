@@ -120,7 +120,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 sameSite: "none",
                 secure: DEPLOYMENT == "development" ? false : true,
             });
-            return res.status(200).json({ success: true, superAdmin: true });
+            return res.status(200).json({ success: true, superAdmin: true, token: token });
         }
         if (!findUser)
             return res.status(404).json({ success: false, message: "Certaines des informations ou toutes les informations fournies sont incorrectes. Veuillez vérifier et réessayer." });
@@ -143,7 +143,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             secure: DEPLOYMENT === "development" ? false : true,
             sameSite: "none" // Only secure in production mode (https)
         });
-        res.status(200).json({ success: true, message: "User Sign In Succesful", user: findUser.toObject() });
+        res.status(200).json({ success: true, message: "User Sign In Succesful", user: findUser.toObject(), token: token });
     }
     catch (error) {
         res.status(500).json({ success: false, message: "Internal Server Error" });

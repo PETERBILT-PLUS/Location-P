@@ -11,7 +11,7 @@ import { loginUser } from '../../../Configuration/userSlice';
 import { useLayoutEffect, useState } from 'react';
 import CookieConsent from 'react-cookie-consent'; // Import the CookieConsent component
 
-// تعريف التحقق من صحة البيانات لنموذج تسجيل الدخول
+// Validation schema for login
 const loginSchema = yup.object().shape({
     email: yup.string().email('Email invalide').required('Email est requis'),
     password: yup.string().required('Mot de passe est requis'),
@@ -27,6 +27,7 @@ function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [cookieError, setCookieError] = useState<boolean>(false); // State to track cookie issues
+    const [cookiesEnabled, setCookiesEnabled] = useState<boolean>(false); // State to track user's cookie consent
 
     useLayoutEffect(() => {
         document.title = "Login (Utilisateur)";
@@ -34,19 +35,22 @@ function Login() {
 
     const onSubmit = async (values: ILogin, actions: FormikHelpers<ILogin>) => {
         try {
-            // Check if cookies are enabled
-            if (!document.cookie.includes('token')) {
-                setCookieError(true); // Notify user to enable cookies
-                toast.warning('Les cookies ne sont pas activés. Le jeton a été stocké dans le localStorage.');
-            }
+            setCookieError(false); // Reset cookie error state
 
-            const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/auth/login`, values, { withCredentials: true });
-            console.log(res.data);
+            const res: AxiosResponse<any> = await axios.post(`${SERVER}/auth/login`, values, {
+                withCredentials: true, // Ensure cookies are sent with the request
+            });
 
             if (res.data.success) {
-                // Fallback to localStorage if cookies are not enabled
-                if (!document.cookie.includes('token')) {
-                    localStorage.setItem('token', res.data.token); // Store the token in localStorage
+                // Store the token based on the user's cookie consent
+                if (cookiesEnabled) {
+                    // Cookies are enabled, so the token is stored in a cookie
+                    toast.success('Connexion réussie');
+                } else {
+                    // Cookies are not enabled, so store the token in localStorage
+                    localStorage.setItem('token', res.data.token);
+                    setCookieError(true); // Notify user to enable cookies
+                    toast.warning('Les cookies ne sont pas activés. Le jeton a été stocké dans le localStorage.');
                 }
 
                 if (res.data.superAdmin) {
@@ -144,15 +148,18 @@ function Login() {
                 location="bottom"
                 buttonText="J'accepte"
                 declineButtonText="Je refuse"
-                cookieName="tokenCookie"
+                cookieName="userConsent"
                 style={{ background: '#2B373B' }}
                 buttonStyle={{ background: '#4CAF50', color: '#fff', fontSize: '13px' }}
                 declineButtonStyle={{ background: '#f44336', color: '#fff', fontSize: '13px' }}
                 enableDeclineButton
+                expires={1}
                 onAccept={() => {
+                    setCookiesEnabled(true); // User accepted cookies
                     toast.success('Les cookies sont activés. Vous pouvez maintenant vous connecter.');
                 }}
                 onDecline={() => {
+                    setCookiesEnabled(false); // User declined cookies
                     toast.warning('Les cookies sont désactivés. Veuillez les activer pour utiliser cette application.');
                 }}
             >

@@ -40,7 +40,7 @@ const jsonwebtoken_1 = __importStar(require("jsonwebtoken"));
 const superAdmin_modal_js_1 = __importDefault(require("../Model/superAdmin.modal.js"));
 const getSuperAdminState = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.token || req.query.token;
         // If no token is found
         if (!token)
             return res.status(400).json({ success: false, message: "Token non trouvé, Veuillez vous Inscrire" });

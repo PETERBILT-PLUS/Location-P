@@ -15,6 +15,7 @@ import CookieConsent from "react-cookie-consent"; // Import the CookieConsent co
 function LoginAgent() {
     const [loading, setLoading] = React.useState<boolean>(false);
     const [cookieError, setCookieError] = useState<boolean>(false); // State to track cookie issues
+    const [cookiesEnabled, setCookiesEnabled] = useState<boolean>(false); // State to track user's cookie consent
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [state, setState] = useState<boolean>();
@@ -30,12 +31,17 @@ function LoginAgent() {
             setLoading(true);
             setCookieError(false); // Reset cookie error state
 
-            const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/agent/login`, values, { withCredentials: true });
+            const res: AxiosResponse<any> = await axios.post(`${SERVER}/agent/login`, values, {
+                withCredentials: true, // Ensure cookies are sent with the request
+            });
 
             if (res.data.success) {
-                // Check if cookies are enabled
-                if (!document.cookie.includes('token')) {
-                    // Fallback to localStorage if cookies are not enabled
+                // Store the token based on the user's cookie consent
+                if (cookiesEnabled) {
+                    // Cookies are enabled, so the token is stored in a cookie
+                    toast.success('Connexion réussie');
+                } else {
+                    // Cookies are not enabled, so store the token in localStorage
                     localStorage.setItem('token', res.data.token);
                     setCookieError(true); // Notify user to enable cookies
                     toast.warning('Les cookies ne sont pas activés. Le jeton a été stocké dans le localStorage.');
@@ -44,7 +50,6 @@ function LoginAgent() {
                 if (!agency) {
                     setState(true);
                 }
-                toast.success('Connexion réussie');
                 dispatch(logout());
                 dispatch(loginAgency(res.data.agency));
                 actions.resetForm();
@@ -138,15 +143,18 @@ function LoginAgent() {
                 location="bottom"
                 buttonText="J'accepte"
                 declineButtonText="Je refuse"
-                cookieName="tokenCookie"
+                cookieName="userConsent"
                 style={{ background: '#2B373B' }}
                 buttonStyle={{ background: '#4CAF50', color: '#fff', fontSize: '13px' }}
                 declineButtonStyle={{ background: '#f44336', color: '#fff', fontSize: '13px' }}
                 enableDeclineButton
+                expires={1}
                 onAccept={() => {
+                    setCookiesEnabled(true); // User accepted cookies
                     toast.success('Les cookies sont activés. Vous pouvez maintenant vous connecter.');
                 }}
                 onDecline={() => {
+                    setCookiesEnabled(false); // User declined cookies
                     toast.warning('Les cookies sont désactivés. Veuillez les activer pour utiliser cette application.');
                 }}
             >
