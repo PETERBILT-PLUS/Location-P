@@ -108,7 +108,7 @@ export const login = async (req: Request, res: Response) => {
             res.cookie("token", token, {
                 maxAge: 1000 * 60 * 60 * 24 * 60,
                 httpOnly: true,
-                sameSite: "lax",
+                sameSite: "none",
                 secure: DEPLOYMENT == "development" ? false : true,
             })
             return res.status(200).json({ success: true, superAdmin: true });
@@ -131,7 +131,7 @@ export const login = async (req: Request, res: Response) => {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 60, // 60 days in milliseconds
             secure: DEPLOYMENT === "development" ? false : true,
-            sameSite: "lax" // Only secure in production mode (https)
+            sameSite: "none" // Only secure in production mode (https)
         });
         res.status(200).json({ success: true, message: "User Sign In Succesful", user: findUser.toObject() });
     } catch (error) {
