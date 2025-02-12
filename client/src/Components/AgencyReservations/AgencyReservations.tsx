@@ -59,7 +59,7 @@ function AgencyReservations() {
             const res: AxiosResponse<any> = await axios.post(
                 `${SERVER}/agent/update-reservation-status`,
                 { reservation_id, status: newStatus, userId: userId },
-                { withCredentials: true }
+                { withCredentials: true, params: { token: token } }
             );
 
             if (res.data.success) {
@@ -97,48 +97,48 @@ function AgencyReservations() {
                 <h2 className="fs-3 text-center mb-4 pb-5">Réservations</h2>
 
                 <Row className="g-4">
-                    {reservations.length > 0 ? (
+                    {!!reservations.length ? (
                         reservations.map((reservation: any, index: number) => (
                             <Col xs={12} md={6} lg={4} key={index}>
                                 <Card className="shadow-sm">
                                     <Card.Header className="p-0">
                                         <Card.Img
-                                            src={reservation.car.carPhotos[0]}
-                                            alt={reservation.car.carName}
+                                            src={reservation?.car?.carPhotos[0]}
+                                            alt={reservation?.car?.carName}
                                             style={{ borderBottomRightRadius: "0", borderBottomLeftRadius: "0", objectFit: "cover", height: "220px" }}
                                         />
                                     </Card.Header>
                                     <Card.Body>
-                                        <Card.Title>{reservation.car?.carName || "Voiture"}</Card.Title>
+                                        <Card.Title>{reservation?.car?.carName || "Voiture"}</Card.Title>
                                         <Card.Subtitle className="mb-2 text-muted">
-                                            {reservation.car?.carMarque}
+                                            {reservation?.car?.carMarque}
                                         </Card.Subtitle>
                                         <Card.Text>
-                                            <strong>Agence:</strong> {reservation.agency.nom} {reservation.agency.prenom}
+                                            <strong>Agence:</strong> {reservation?.agency?.nom} {reservation?.agency?.prenom}
                                             <br />
-                                            <strong>Téléphone:</strong> {reservation.phoneNumber}
+                                            <strong>Téléphone:</strong> {reservation?.phoneNumber}
                                             <br />
-                                            <strong>Statut:</strong><mark className="p-1 rounded"> {reservation.status}</mark>
+                                            <strong>Statut:</strong><mark className="p-1 rounded"> {reservation?.status}</mark>
                                             <br />
-                                            <strong>Date de début:</strong> {new Date(reservation.timeStart).toLocaleDateString("fr-FR")}
+                                            <strong>Date de début:</strong> {new Date(reservation?.timeStart).toLocaleDateString("fr-FR")}
                                             <br />
-                                            <strong>Date de fin:</strong> {new Date(reservation.timeEnd).toLocaleDateString("fr-FR")}
+                                            <strong>Date de fin:</strong> {new Date(reservation?.timeEnd).toLocaleDateString("fr-FR")}
                                             <br />
-                                            <strong>Total jours:</strong> {reservation.totalDays}
+                                            <strong>Total jours:</strong> {reservation?.totalDays}
                                             <br />
-                                            <strong>Prix total:</strong> {reservation.priceTotal} DH
+                                            <strong>Prix total:</strong> {reservation?.priceTotal} DH
                                         </Card.Text>
                                     </Card.Body>
                                     <Card.Footer className="d-flex justify-content-start align-items-center gap-3 py-4">
                                         <Button
                                             variant="primary"
-                                            onClick={() => handleAcceptDecline(reservation._id, "Accepté", reservation.user._id)}
+                                            onClick={() => handleAcceptDecline(reservation?._id, "Accepté", reservation?.user?._id)}
                                         >
                                             Accepter
                                         </Button>
                                         <Button
                                             variant="danger"
-                                            onClick={() => handleAcceptDecline(reservation._id, "Refusé", reservation.user._id)}
+                                            onClick={() => handleAcceptDecline(reservation?._id, "Refusé", reservation?.user?._id)}
                                         >
                                             Refuser
                                         </Button>

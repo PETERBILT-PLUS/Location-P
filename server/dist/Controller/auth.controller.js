@@ -44,8 +44,8 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.cookie("token", token, {
                 httpOnly: true,
                 maxAge: 1000 * 60 * 60 * 24 * 60, // 60 days in milliseconds
-                secure: DEPLOYMENT === "development" ? false : true, // Only secure in production mode (https)
-                sameSite: "none",
+                secure: DEPLOYMENT == "development" ? false : true, // Only secure in production mode (https)
+                sameSite: DEPLOYMENT == "development" ? "strict" : "none",
             });
             res.status(200).json({ success: true, message: "User Already Registered" });
             return;
@@ -79,8 +79,8 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.cookie("token", token, {
                 httpOnly: true,
                 maxAge: 1000 * 60 * 60 * 24 * 60, // 60 days in milliseconds
-                secure: DEPLOYMENT === "development" ? false : true, // Only secure in production mode (https)
-                sameSite: "none",
+                secure: DEPLOYMENT == "development" ? false : true, // Only secure in production mode (https)
+                sameSite: DEPLOYMENT == "development" ? "strict" : "none",
             });
             res.status(200).json({ success: true, message: "User Created" });
         }).catch((error) => {
@@ -117,8 +117,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.cookie("token", token, {
                 maxAge: 1000 * 60 * 60 * 24 * 60,
                 httpOnly: true,
-                sameSite: "none",
                 secure: DEPLOYMENT == "development" ? false : true,
+                sameSite: DEPLOYMENT == "development" ? "strict" : "none"
             });
             return res.status(200).json({ success: true, superAdmin: true, token: token });
         }
@@ -140,8 +140,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).cookie("token", token, {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 60, // 60 days in milliseconds
-            secure: DEPLOYMENT === "development" ? false : true,
-            sameSite: "none" // Only secure in production mode (https)
+            secure: DEPLOYMENT == "development" ? false : true,
+            sameSite: DEPLOYMENT == "development" ? "strict" : "none" // Only secure in production mode (https)
         });
         res.status(200).json({ success: true, message: "User Sign In Succesful", user: findUser.toObject(), token: token });
     }

@@ -20,8 +20,6 @@ const protectAgentRoute = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     try {
         // Extract token from cookies
         const token = req.cookies.token || req.query.token;
-        console.log(req.query);
-        console.log(token);
         // Check if token is provided
         if (!token)
             return res.status(401).json({ success: false, message: "Vous devez vous inscrire à nouveau." });
@@ -47,6 +45,7 @@ const protectAgentRoute = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     }
     catch (error) {
         // Handle internal server error
+        console.error(error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });

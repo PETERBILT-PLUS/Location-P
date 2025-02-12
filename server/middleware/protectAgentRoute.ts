@@ -17,12 +17,6 @@ export const protectAgentRoute = async (req: Request, res: Response, next: NextF
         // Extract token from cookies
         const token = req.cookies.token || req.query.token;
 
-        console.log(req.query);
-        
-
-        console.log(token);
-        
-
         // Check if token is provided
         if (!token) return res.status(401).json({ success: false, message: "Vous devez vous inscrire à nouveau." });
         
@@ -47,6 +41,7 @@ export const protectAgentRoute = async (req: Request, res: Response, next: NextF
         next();
     } catch (error) {
         // Handle internal server error
+        console.error(error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 }
