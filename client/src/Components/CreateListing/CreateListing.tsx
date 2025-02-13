@@ -112,7 +112,7 @@ function CreateListing() {
             const res: AxiosResponse<any> = await axios.post(`${SERVER}/cars/create-listing?token=${token}`, values, { withCredentials: true });
             if (res.data.success) {
                 actions.resetForm();
-                toast.success(res?.data?.message)
+                toast.success("Vehicule crée avec Succès")
             }
         } catch (error: any) {
             if (axios.isAxiosError(error)) {

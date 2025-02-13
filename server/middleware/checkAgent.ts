@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import agencyModal, { IAgency } from "../Model/agency.modal";
 
 export const getAgentState = async (req: Request, res: Response) => {
@@ -15,12 +15,27 @@ export const getAgentState = async (req: Request, res: Response) => {
             throw new Error("the JWT_SECRET is not available; please check the .env file");
         }
 
-        const decoded = jwt.verify(token, JWT_SECRET);
-        if (!decoded) {
-            return res.status(403).json({ success: false, message: "Pas Autorisé: Token Incorrect" });
-        }
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET) as { _id: string }; // Assuming the decoded token contains an _id field
 
-        res.status(200).json({ success: true, message: "Autorisé" });
+            // Fetch the agent details from the database using the decoded _id
+            const agent: IAgency | null = await agencyModal.findById(decoded._id);
+            if (!agent) {
+                return res.status(404).json({ success: false, message: "Agence Pas Trouvé" });
+            }
+
+            // Return the agent's state or other relevant information
+            res.status(200).json({ success: true, message: "Autorisé", agent });
+        } catch (error: any) {
+            if (error instanceof TokenExpiredError) {
+                return res.status(403).json({ success: false, message: "Pas Autorisé: Token Expiré" });
+            } else if (error instanceof JsonWebTokenError) {
+                return res.status(403).json({ success: false, message: "Pas Autorisé: Token Invalide" });
+            } else {
+                console.error(error); // Re-throw unexpected errors
+                res.status(500).json({ success: false, messgae: error?.message });
+            }
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: "Internal Server Error" });

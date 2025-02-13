@@ -42,7 +42,7 @@ function LoginAgent() {
                     toast.success('Connexion réussie');
                 } else {
                     // Cookies are not enabled, so store the token in localStorage
-                    localStorage.setItem('token', res.data.token);
+                    localStorage.setItem("token", res.data.token);
                     setCookieError(true); // Notify user to enable cookies
                     toast.warning('Les cookies ne sont pas activés. Le jeton a été stocké dans le localStorage.');
                 }
