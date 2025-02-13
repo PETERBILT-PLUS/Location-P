@@ -21,7 +21,7 @@ function Payment() {
         const getState = async () => {
             setLoading(true);
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent-state/get-payment-state?token=${token}`, { withCredentials: true });
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent-state/get-payment-state`, { params: { token: token }, withCredentials: true });
                 if (res.data.success) {
                     setTryFree(res.data.tryFree);
                 }
@@ -42,7 +42,7 @@ function Payment() {
 
     const handleTryFree = async () => {
         try {
-            const res: AxiosResponse<{ success: boolean, message: string }> = await axios.post(`${SERVER}/agent/try-free`, null, { withCredentials: true });
+            const res: AxiosResponse<{ success: boolean, message: string }> = await axios.post(`${SERVER}/agent/try-free`, null, { params: { token: token }, withCredentials: true });
             if (res.data.success) {
                 toast.success(res.data.message);
                 navigate("/agence-dashboard");
