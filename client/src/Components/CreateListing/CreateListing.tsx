@@ -109,7 +109,7 @@ function CreateListing() {
     const onSubmit = async (values: FormValues, actions: FormikHelpers<FormValues>) => {
         if (values.carPhotos.length < 3) return toast.warning("Minimum 3 photos");
         try {
-            const res: AxiosResponse<any> = await axios.post(`${SERVER}/cars/create-listing?token=${token}`, values, { withCredentials: true });
+            const res: AxiosResponse<any> = await axios.post(`${SERVER}/cars/create-listing`, values, { params: { token: token }, withCredentials: true });
             if (res.data.success) {
                 actions.resetForm();
                 toast.success("Vehicule crée avec Succès")
