@@ -35,7 +35,7 @@ function LoginAgent() {
                 withCredentials: true, // Ensure cookies are sent with the request
             });
 
-            if (res.data.success) {
+            if (res.data.success || cookiesEnabled) {
                 toast.success('Connexion réussie');
                 // Cookies are not enabled, so store the token in localStorage
                 localStorage.setItem("token", res.data.token);

@@ -41,7 +41,7 @@ function Login() {
                 withCredentials: true, // Ensure cookies are sent with the request
             });
 
-            if (res.data.success) {
+            if (res.data.success || cookiesEnabled) {
                 // Store the token based on the user's cookie consent
                 toast.success('Connexion réussie');
                 // Cookies are not enabled, so store the token in localStorage
