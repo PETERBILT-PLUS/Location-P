@@ -36,7 +36,7 @@ function AgenceDashboadLayout() {
   useEffect(() => {
     const getCookieState = async () => {
       try {
-        const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent-state/get-cookie-state?token=${token}`, { withCredentials: true });
+        const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent-state/get-cookie-state`, { withCredentials: true, params: { token: token } });
         if (res.data.success) {
           return true;
         }

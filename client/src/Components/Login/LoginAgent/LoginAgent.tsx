@@ -36,16 +36,11 @@ function LoginAgent() {
             });
 
             if (res.data.success) {
-                // Store the token based on the user's cookie consent
-                if (cookiesEnabled) {
-                    // Cookies are enabled, so the token is stored in a cookie
-                    toast.success('Connexion réussie');
-                } else {
-                    // Cookies are not enabled, so store the token in localStorage
-                    localStorage.setItem("token", res.data.token);
-                    setCookieError(true); // Notify user to enable cookies
-                    toast.warning('Les cookies ne sont pas activés. Le jeton a été stocké dans le localStorage.');
-                }
+                toast.success('Connexion réussie');
+                // Cookies are not enabled, so store the token in localStorage
+                localStorage.setItem("token", res.data.token);
+                setCookieError(true); // Notify user to enable cookies
+                toast.warning('Les cookies ne sont pas activés. Le jeton a été stocké dans le localStorage.');
 
                 if (!agency) {
                     setState(true);

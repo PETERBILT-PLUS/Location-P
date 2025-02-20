@@ -66,7 +66,7 @@ function SuperAdminAgencys() {
             try {
                 console.log("working hahaha");
 
-                const res: AxiosResponse<{ success: boolean, agencys: Agency[] }> = await axios.get(`${SERVER}/super-admin/get-agencys?skip=${agencys.length}`, { withCredentials: true });
+                const res: AxiosResponse<{ success: boolean, agencys: Agency[] }> = await axios.get(`${SERVER}/super-admin/get-agencys?skip=${agencys.length}`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     setAgencys((prev: any) => [...prev, ...res.data.agencys]);
                 }

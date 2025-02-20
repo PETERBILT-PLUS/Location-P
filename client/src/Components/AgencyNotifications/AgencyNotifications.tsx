@@ -19,7 +19,7 @@ function AgencyNotifications() {
     useEffect(() => {
         const getNotifications = async () => {
             try {
-                const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent/get-notifications?token=${token}`, { withCredentials: true });
+                const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent/get-notifications`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     setNotifications(res.data.data);
                 }
@@ -41,7 +41,7 @@ function AgencyNotifications() {
     useEffect(() => {
         const updateNotifications = async () => {
             try {
-                const res: AxiosResponse<any> = await axios.post(`${SERVER}/agent/update-notifications?token=${token}`, null, { withCredentials: true });
+                const res: AxiosResponse<any> = await axios.post(`${SERVER}/agent/update-notifications`, null, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     return true;
                 }

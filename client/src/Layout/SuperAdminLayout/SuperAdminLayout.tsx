@@ -8,11 +8,12 @@ import { toast } from 'react-toastify';
 function SuperAdminLayout() {
     const [loading, setLoading] = useState<boolean>(true);
     const SERVER: string = import.meta.env.VITE_SERVER as string;
+    const token: string | undefined = localStorage.getItem("token") || undefined;
 
     useEffect(() => {
         const getSuperAdminState = async () => {
             try {
-                const res: AxiosResponse<{ success: boolean, isAdmin: boolean, message?: string }> = await axios.get(`${SERVER}/super-admin-state/state`, { withCredentials: true });
+                const res: AxiosResponse<{ success: boolean, isAdmin: boolean, message?: string }> = await axios.get(`${SERVER}/super-admin-state/state`, { withCredentials: true, params: { token: token } });
                 if (res.data.success && res.data.isAdmin) {
                     toast.info("Bienvenue");
                 }

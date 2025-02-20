@@ -15,12 +15,12 @@ function CheckState() {
         const getState = async () => {
             try {
                 if (user) {
-                    const res: AxiosResponse<any> = await axios.get(`${SERVER}/user-state/get-state?token=${token}`, { withCredentials: true });
+                    const res: AxiosResponse<any> = await axios.get(`${SERVER}/user-state/get-state`, { withCredentials: true, params: { token: token } });
                     if (res.data.success) {
                         return true;
                     }
                 } else if (agency) {
-                    const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent-state/agent-subscription-state?token=${token}`, { withCredentials: true });
+                    const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent-state/agent-subscription-state`, { withCredentials: true, params: { token: token } });
                     if (res.data.success) {
                         return true;
                     }

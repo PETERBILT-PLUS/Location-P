@@ -71,7 +71,7 @@ function AgenceAdminProfile() {
     useEffect(() => {
         const getUserProfile = async () => {
             try {
-                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-agent-profile?token=${token}`, { withCredentials: true });
+                const res: AxiosResponse<any, any> = await axios.get(`${SERVER}/agent/get-agent-profile`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     console.log(res.data);
 

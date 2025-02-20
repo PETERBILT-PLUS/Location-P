@@ -133,7 +133,7 @@ function EditVehicule() {
 
     const onSubmit = async (state: FormValues, actions: FormikHelpers<FormValues>) => {
         try {
-            const res: AxiosResponse<any, any> = await axios.put(`${SERVER}/agent/edit-car?car_id=${params.id}`, state, { withCredentials: true });
+            const res: AxiosResponse<any, any> = await axios.put(`${SERVER}/agent/edit-car?car_id=${params.id}`, state, { withCredentials: true, params: { token: token } });
             if (res.data.success) {
                 toast.success("Vehicule Modifié avec Succès");
                 actions.resetForm();

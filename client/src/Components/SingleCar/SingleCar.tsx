@@ -20,6 +20,7 @@ function SingleCar() {
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [phone, setPhone] = useState<string>("");
+    const token: string | undefined = localStorage.getItem("token") || undefined;
     const navigate = useNavigate();
     const SERVER: string = import.meta.env.VITE_SERVER as string;
     const params = useParams();
@@ -54,7 +55,7 @@ function SingleCar() {
     const reserveCar = async () => {
         if (!startDate || !endDate || !phone) return toast.warning("Entrer le informations Du date et Votre Télephone");
         try {
-            const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/user/add-reservation`, { _id: params.id, startDate, endDate, phone }, { withCredentials: true });
+            const res: AxiosResponse<any, any> = await axios.post(`${SERVER}/user/add-reservation`, { _id: params.id, startDate, endDate, phone }, { withCredentials: true, params: { token: token } });
             if (res.data.success) {
                 toast.success(res.data.message);
                 navigate("/");

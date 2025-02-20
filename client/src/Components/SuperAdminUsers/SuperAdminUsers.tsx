@@ -39,7 +39,7 @@ function SuperAdminUsers() {
 
     const getMoreUsers = async () => {
         try {
-            const res: AxiosResponse<{ success: boolean, users: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-users?skip=${users.length}`, { withCredentials: true });
+            const res: AxiosResponse<{ success: boolean, users: any[], message?: string }> = await axios.get(`${SERVER}/super-admin/get-users?skip=${users.length}`, { withCredentials: true, params: { token: token } });
             if (res.data.success) {
                 setUsers((prev: any) => [...prev, res.data.users]);
             }
@@ -66,7 +66,7 @@ function SuperAdminUsers() {
     const deleteUser = async (user_id: string) => {
         try {
             if (!user_id) return toast.warning("Utilisateur est Manqué");
-            const res: AxiosResponse<{ success: boolean, message?: string }> = await axios.delete(`${SERVER}/super-admin/delete-user?id=${user_id}`, { withCredentials: true });
+            const res: AxiosResponse<{ success: boolean, message?: string }> = await axios.delete(`${SERVER}/super-admin/delete-user?id=${user_id}`, { withCredentials: true, params: { token: token } });
             if (res.data.success) {
                 setUsers((prev) => prev.filter((elem: any) => elem._id !== user_id));
                 toast.success("Utilisateur Supprimer Avec Succès");

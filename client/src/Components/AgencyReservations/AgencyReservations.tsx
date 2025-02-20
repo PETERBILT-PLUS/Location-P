@@ -21,7 +21,7 @@ function AgencyReservations() {
     useEffect(() => {
         const getAgencyReservations = async () => {
             try {
-                const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent/get-reservations?token=${token}`, { withCredentials: true });
+                const res: AxiosResponse<any> = await axios.get(`${SERVER}/agent/get-reservations`, { withCredentials: true, params: { token: token } });
                 if (res.data.success) {
                     setReservations(res.data.data);  // Set reservations in state
                 }
