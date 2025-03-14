@@ -34,6 +34,7 @@ import SuperAdminDashboard from './Components/SuperAdminDashboard/SuperAdminDash
 import SuperAdminReservations from './Components/SuperAdminReservations/SuperAdminReservations.tsx';
 import SuperAdminAnalytics from "./Components/SuperAdminAnalytics/SuperAdminAnalytics.tsx";
 import Page404 from './Components/Page404/Page404.tsx';
+import { HelmetProvider } from 'react-helmet-async';
 
 
 function App() {
@@ -93,9 +94,11 @@ function App() {
   ));
   return (
     <>
-      <PayPalScriptProvider options={initialOptions}>
-        <RouterProvider router={router} />
-      </PayPalScriptProvider>
+      <HelmetProvider>
+        <PayPalScriptProvider options={initialOptions}>
+          <RouterProvider router={router} />
+        </PayPalScriptProvider>
+      </HelmetProvider>
     </>
   )
 }

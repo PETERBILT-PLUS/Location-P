@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /agence-dashboard/
+Disallow: /super-admin/
+
+
+Sitemap: https://www.vrentauto.com/sitemap.xml
