@@ -47,113 +47,111 @@ function Register() {
     });
 
     return (
-        <>
+        <section className="register-section bg-light py-5 min-vh-100">
             <Helmet>
                 <title>Inscription - V Rent Auto Maroc</title>
                 <meta name="description" content="Inscrivez-vous sur V Rent Auto Maroc pour accéder à des offres exclusives de location de voitures au Maroc. Créez votre compte et commencez à louer dès aujourd'hui !" />
                 <link rel="canonical" href="https://www.vrentauto.com/register" />
             </Helmet>
-            <section className="register-section bg-light py-5 min-vh-100">
-                <Container>
-                    <h3 className="text-center text-light title pb-5 pt-2">Crée un Compte</h3>
-                    <Row>
-                        <div className="col-11 col-md-6 col-lg-5 col-xlg-4 mx-auto">
-                            <Form onSubmit={handleSubmit} className="mx-auto bg-white p-5" style={{ borderRadius: "15px" }}>
-                                <Form.Group className="py-1">
-                                    <Form.Label htmlFor="nom">Nom:</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        name="nom"
-                                        id="nom"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.nom}
-                                        isInvalid={!!errors.nom && touched.nom}
-                                    />
-                                    {errors.nom && touched.nom && <Form.Control.Feedback type="invalid">{errors.nom}</Form.Control.Feedback>}
-                                </Form.Group>
+            <Container>
+                <h3 className="text-center text-light title pb-5 pt-2">Crée un Compte</h3>
+                <Row>
+                    <div className="col-11 col-md-6 col-lg-5 col-xlg-4 mx-auto">
+                        <Form onSubmit={handleSubmit} className="mx-auto bg-white p-5" style={{ borderRadius: "15px" }}>
+                            <Form.Group className="py-1">
+                                <Form.Label htmlFor="nom">Nom:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="nom"
+                                    id="nom"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.nom}
+                                    isInvalid={!!errors.nom && touched.nom}
+                                />
+                                {errors.nom && touched.nom && <Form.Control.Feedback type="invalid">{errors.nom}</Form.Control.Feedback>}
+                            </Form.Group>
 
-                                <Form.Group className="py-1">
-                                    <Form.Label htmlFor="prenom">Prénom:</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        name="prenom"
-                                        id="prenom"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.prenom}
-                                        isInvalid={!!errors.prenom && touched.prenom}
-                                    />
-                                    {errors.prenom && touched.prenom && <Form.Control.Feedback type="invalid">{errors.prenom}</Form.Control.Feedback>}
-                                </Form.Group>
+                            <Form.Group className="py-1">
+                                <Form.Label htmlFor="prenom">Prénom:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="prenom"
+                                    id="prenom"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.prenom}
+                                    isInvalid={!!errors.prenom && touched.prenom}
+                                />
+                                {errors.prenom && touched.prenom && <Form.Control.Feedback type="invalid">{errors.prenom}</Form.Control.Feedback>}
+                            </Form.Group>
 
-                                <Form.Group className="py-1">
-                                    <Form.Label htmlFor="email">Email:</Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        name="email"
-                                        id="email"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.email}
-                                        isInvalid={!!errors.email && touched.email}
-                                    />
-                                    {errors.email && touched.email && <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>}
-                                </Form.Group>
+                            <Form.Group className="py-1">
+                                <Form.Label htmlFor="email">Email:</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.email}
+                                    isInvalid={!!errors.email && touched.email}
+                                />
+                                {errors.email && touched.email && <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>}
+                            </Form.Group>
 
-                                <Form.Group className="py-1">
-                                    <Form.Label htmlFor="sexe">Sexe:</Form.Label>
-                                    <Form.Control
-                                        as="select"
-                                        name="sexe"
-                                        id="sexe"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.sexe}
-                                        isInvalid={!!errors.sexe && touched.sexe}
-                                    >
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </Form.Control>
-                                    {errors.sexe && touched.sexe && <Form.Control.Feedback type="invalid">{errors.sexe}</Form.Control.Feedback>}
-                                </Form.Group>
+                            <Form.Group className="py-1">
+                                <Form.Label htmlFor="sexe">Sexe:</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    name="sexe"
+                                    id="sexe"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.sexe}
+                                    isInvalid={!!errors.sexe && touched.sexe}
+                                >
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </Form.Control>
+                                {errors.sexe && touched.sexe && <Form.Control.Feedback type="invalid">{errors.sexe}</Form.Control.Feedback>}
+                            </Form.Group>
 
-                                <Form.Group className="py-1">
-                                    <Form.Label htmlFor="password">Mot de passe:</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        name="password"
-                                        id="password"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.password}
-                                        isInvalid={!!errors.password && touched.password}
-                                    />
-                                    {errors.password && touched.password && <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>}
-                                </Form.Group>
+                            <Form.Group className="py-1">
+                                <Form.Label htmlFor="password">Mot de passe:</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.password}
+                                    isInvalid={!!errors.password && touched.password}
+                                />
+                                {errors.password && touched.password && <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>}
+                            </Form.Group>
 
-                                <Form.Group className="py-1">
-                                    <Form.Label htmlFor="confirmPassword">Confirmation du mot de passe:</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        name="confirmPassword"
-                                        id="confirmPassword"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.confirmPassword}
-                                        isInvalid={!!errors.confirmPassword && touched.confirmPassword}
-                                    />
-                                    {errors.confirmPassword && touched.confirmPassword && <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>}
-                                </Form.Group>
+                            <Form.Group className="py-1">
+                                <Form.Label htmlFor="confirmPassword">Confirmation du mot de passe:</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="confirmPassword"
+                                    id="confirmPassword"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.confirmPassword}
+                                    isInvalid={!!errors.confirmPassword && touched.confirmPassword}
+                                />
+                                {errors.confirmPassword && touched.confirmPassword && <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>}
+                            </Form.Group>
 
-                                <SubmitButton disabled={isSubmitting} loading={isSubmitting} />
-                                <p className="pt-4 text-secondary">Vous Avez Déja un compte <Link to="/login">Connection</Link></p>
-                            </Form>
-                        </div>
-                    </Row>
-                </Container>
-            </section>
-        </>
+                            <SubmitButton disabled={isSubmitting} loading={isSubmitting} />
+                            <p className="pt-4 text-secondary">Vous Avez Déja un compte <Link to="/login">Connection</Link></p>
+                        </Form>
+                    </div>
+                </Row>
+            </Container>
+        </section>
     )
 }
 
